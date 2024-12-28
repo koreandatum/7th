@@ -1,9 +1,11 @@
 [https://drive.google.com/file/d/1hxFdS5ZdLgOo6Ce5_SWoWctOSdPiir5I/view?usp=drive_link](https://drive.google.com/file/d/1hxFdS5ZdLgOo6Ce5_SWoWctOSdPiir5I/view?usp=sharing) 이거 압축해제해서
-schema에 있는 sql을 SOURCE /path/to/0000.sql; 해서
+schema에 있는 sql을 
+SOURCE /(파일 경로)/0000.sql; 해서
 연동하고 해주세요
-USE blogdb 해주시면됩니다
+
 파워셸에서 데이터베이스는
 mysql -uroot -pmaria81?+ 하고 실행해주세요
+USE blogdb 해주시면됩니다
 저 폴더 압축풀고 파워셸에서 npm run start 해서 해주세요 ㅠㅠ
 
 안될것같긴한데 정말죄송합니다 ㅠㅠ
