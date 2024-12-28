@@ -1,0 +1,113 @@
+doctype html
+html
+    head
+        title KWEBBLOG
+        link(rel='stylesheet', href='/public/styles/style.css')
+        style.
+            .alert {
+                position: fixed;
+                top: 20%; /* 화면 중앙에 위치 */
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background-color: #f44336; /* 알림 색상 */
+                color: white;
+                padding: 20px;
+                border-radius: 5px;
+                z-index: 1000;
+                display: none; /* 기본적으로 숨김 */
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            }
+            .alert button {
+                background-color: #fff; /* 버튼 색상 */
+                color: #f44336; /* 버튼 글자 색상 */
+                border: none;
+                padding: 10px 15px;
+                border-radius: 5px;
+                cursor: pointer;
+                margin-top: 10px;
+            }
+            .center-text {
+                text-align: center; /* 가운데 정렬 */
+                width: 100%; /* 전체 너비 사용 */
+            }
+            .input-container {
+                width: 100%; /* 전체 너비 사용 */
+                max-width: 400px; /* 최대 너비 설정 */
+                margin: 10px auto; /* 가로 가운데 정렬 */
+                padding: 0; /* 패딩 제거 */
+            }
+            input[type="text"],
+            input[type="password"],
+            textarea {
+                width: calc(100% - 40px); /* 전체 너비에서 좌우 여백을 뺀 너비 설정 */
+                padding: 10px; /* 패딩 */
+                border: 1px solid #ced4da; /* 경계선 스타일 */
+                border-radius: 5px; /* 경계선 둥글게 */
+                box-sizing: border-box; /* 패딩과 보더를 포함한 너비 계산 */
+                margin: 0 20px; /* 좌우 여백 추가 */
+            }
+            .register-button {
+                width: 300px; /* 회원가입 버튼 너비 조정 */
+                margin: 10px auto; /* 가로 방향으로 가운데 정렬 */
+                display: block; /* 블록 요소로 변경하여 가운데 정렬 가능 */
+            }
+    body
+        h1 KWEBLOG
+
+        // 로그인 상태 확인
+        if user
+            h2 환영합니다, #{user.username}님!
+            // 프로필 업데이트 폼
+            form(id='profileForm', action='/profile/update', method='post', enctype='multipart/form-data')
+                .input-container
+                    input(type='file', name='profile_picture')
+                .input-container
+                    textarea(name='bio', placeholder='자기소개', required)
+                button(type='submit') 프로필 업데이트
+            // 글 작성 폼
+            form(id='postForm', action='/posts', method='post')
+                .input-container
+                    textarea(name='content', placeholder='글을 작성하세요...', required)
+                .input-container
+                    input(type='file', name='image')
+                button(type='submit') 글 작성
+            // 댓글 작성 폼
+            form(id='commentForm', action='/comments', method='post')
+                .input-container
+                    textarea(name='content', placeholder='댓글을 작성하세요...', required)
+                button(type='submit') 댓글 작성
+            // 로그아웃 버튼
+            form(action='/logout', method='post')
+                button(type='submit') 로그아웃
+        else
+            h2.center-text 로그인 해주세요.
+            // 로그인 폼
+            form(id='login-form', action='/login', method='post')
+                .input-container
+                    input(type='text', name='username', placeholder='아이디', required)
+                .input-container
+                    input(type='password', name='password', placeholder='비밀번호', required)
+                button(type='submit') 로그인
+            // 회원가입 버튼
+            button(class='register-button', onclick="location.href='/register'") 회원가입
+
+            // 로그인 실패 메시지 출력
+            if message
+                div.alert(id='alert')
+                    p #{message}
+                    button(onclick="closeAlert()") 확인
+
+        script(src='/public/scripts/script.js')
+        script.
+            // 페이지 로드 시 알림창 표시
+            window.onload = function() {
+                var alertDiv = document.getElementById('alert');
+                if (alertDiv) {
+                    alertDiv.style.display = 'block'; // 로그인 실패 시만 표시
+                }
+            }
+
+            function closeAlert() {
+                var alertDiv = document.getElementById('alert');
+                alertDiv.style.display = 'none'; // 알림창 숨김
+            }

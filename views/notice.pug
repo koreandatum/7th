@@ -1,0 +1,52 @@
+doctype html
+html
+    head
+        title 알림
+        link(rel='stylesheet', href='/public/styles/style.css')
+        style.
+            body {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                background-color: #f8f9fa;
+                min-height: 100vh;
+                padding: 20px;
+            }
+            .button-container {
+                margin-top: 20px;
+            }
+            .profile-button {
+                display: inline-block;
+                background-color: #007bff;
+                color: white;
+                border: none;
+                padding: 10px 15px;
+                border-radius: 5px;
+                cursor: pointer;
+                text-decoration: none;
+                margin: 10px;
+            }
+            .notification-container {
+                background-color: #ffe6f2; /* 알림 박스 색상 */
+                border-radius: 5px;
+                padding: 15px;
+                margin: 10px 0;
+                width: 100%;
+                max-width: 600px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            }
+    body
+        h1 알림
+
+        // 버튼 컨테이너
+        .button-container
+            a(href=`/profile/${user.username}`, class='profile-button') 프로필
+
+        // 알림 내용 표시
+        if notifications && notifications.length > 0
+            each notification in notifications
+                .notification-container
+                    p= notification.message
+                    p(klass='timestamp') #{notification.created_at} // 알림 생성 시간
+        else
+            p 아직 알림이 없습니다.

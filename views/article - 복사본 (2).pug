@@ -1,0 +1,106 @@
+doctype html
+html
+    head
+        title #{profile.usert}의 게시물
+        link(rel='stylesheet', href='/public/styles/style.css')
+        style.
+            body {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                background-color: #f8f9fa;
+                min-height: 100vh;
+                padding: 20px;
+            }
+            .button-container {
+                margin-top: 20px;
+            }
+            .profile-button {
+                display: inline-block;
+                background-color: #007bff;
+                color: white;
+                border: none;
+                padding: 10px 15px;
+                border-radius: 5px;
+                cursor: pointer;
+                text-decoration: none;
+                margin: 10px;
+            }
+            .post-container {
+                background-color: #ffe6f2;
+                border-radius: 5px;
+                padding: 15px;
+                margin: 10px 0;
+                width: 100%;
+                max-width: 600px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            }
+            .delete-button {
+                background-color: #dc3545;
+                color: white;
+                border: none;
+                padding: 5px 10px;
+                border-radius: 5px;
+                cursor: pointer;
+                margin-top: 10px;
+                font-size: 0.8em;
+            }
+            .like-button {
+                border: none;
+                border-radius: 5px;
+                padding: 5px 10px;
+                cursor: pointer;
+                margin-top: 10px;
+                font-size: 1em;
+            }
+            .comment-container {
+                margin-top: 10px;
+                padding: 10px;
+                background-color: #ffe6b2; /* 연주황색 */
+                border-radius: 5px;
+            }
+    body
+        h1 #{profile.usert}의 게시물
+
+        // 버튼 컨테이너
+        .button-container
+            a(href=`/profile/${profile.username}`, class='profile-button') 프로필
+
+        // 자신의 게시물 작성란이 보이는 경우
+        if user && user.username === profile.username
+            form(action=`/profile/${profile.username}/article`, method='post', enctype='multipart/form-data')
+                textarea(name='content', placeholder='게시물 내용을 작성하세요...', required=true, rows='4', style='width: 100%; max-width: 600px;') 
+                input(type='file', name='image', accept='image/*') 
+                button(type='submit', class='profile-button') 게시물 작성
+
+        // 게시물 목록
+        if Array.isArray(posts) && posts.length > 0
+            each post in posts
+                .post-container
+                    p= post.content
+                    if post.image
+                        img(src=post.image, alt='게시물 이미지', width='100%')
+                    
+                    // 좋아요 버튼
+                    - const likesCount = post.likes ? post.likes.length : 0; // 좋아요 수
+                    form(action=`/post/${post.id}/like`, method='post')
+                        button(type='submit', class='like-button', style=`background-color: ${post.userLiked ? '#dc3545' : '#fff'}; color: ${post.userLiked ? '#fff' : '#dc3545'};`) ♥ #{likesCount}
+
+                    // 댓글 입력
+                    form(action=`/post/${post.id}/comment`, method='post')
+                        input(type='text', name='content', placeholder='댓글을 작성하세요...', required=true)
+                        button(type='submit') 댓글 작성
+
+                    // 댓글 표시
+                    if post.comments && post.comments.length > 0
+                        each comment in post.comments
+                            .comment-container
+                                p= comment.username
+                                p= comment.content 
+
+                    // 삭제 버튼 (자신의 게시물일 때만)
+                    if user && user.username === profile.username
+                        form(action=`/post/${post.id}/delete`, method='post')
+                            button(type='submit', class='delete-button') 삭제
+        else
+            p 게시물이 없습니다.

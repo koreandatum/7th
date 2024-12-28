@@ -1,0 +1,42 @@
+//- Parameters
+//- user, article
+
+extends ../layout.pug
+
+block title
+    if article
+        | Edit Article
+    else
+        | Compose Article
+
+block scripts
+    link(rel='stylesheet',
+         href='/styles/init-editor.css')
+    script(type='text/javascript',
+           src='https://cdn.ckeditor.com/ckeditor5/21.0.0/classic/ckeditor.js')
+    script(type='text/javascript',
+           src='/scripts/init-editor.js',
+           defer)
+
+block page_title
+    if article
+        | Editing: #{article.title}
+    else
+        | Writing as @#{user.username}
+
+block buttons
+    a.btn.btn-secondary.mr-2(href='/articles') Go to Board
+
+block content
+    .compose-article
+        form(method='post',
+             enctype='application/x-www-form-urlencoded')
+            input.form-control.mb-2(type='text',
+                                    name='title',
+                                    max_length=32,
+                                    placeholder='Your Title Here',
+                                    value=article ? `${article.title}` : '')
+            textarea#editor(name='content')
+                if article
+                    | #{article.content}
+            button.btn.btn-success.mt-2(type='submit') Submit Article

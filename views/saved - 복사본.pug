@@ -1,0 +1,55 @@
+doctype html
+html
+    head
+        title 저장됨됨
+        link(rel='stylesheet', href='/public/styles/style.css')
+        style.
+            body {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                background-color: #f8f9fa;
+                min-height: 100vh;
+                padding: 20px;
+            }
+            .button-container {
+                margin-top: 20px;
+            }
+            .profile-button {
+                display: inline-block;
+                background-color: #007bff;
+                color: white;
+                border: none;
+                padding: 10px 15px;
+                border-radius: 5px;
+                cursor: pointer;
+                text-decoration: none;
+                margin: 10px;
+            }
+            .notification-container {
+                background-color: #ffe6f2; /* 알림 박스 색상 */
+                border-radius: 5px;
+                padding: 15px;
+                margin: 10px 0;
+                width: 100%;
+                max-width: 600px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            }
+    body
+        h1 저장됨
+
+        // 버튼 컨테이너
+        .button-container
+            a(href=`/profile/${user.username}`, class='profile-button') 프로필
+
+        // 저장된 게시물 표시
+        if savedPosts.length > 0
+            each post in savedPosts
+                .post-container
+                    p= post.content
+                    p 작성자: #{post.username}
+                    p 작성일: #{post.created_at}
+
+
+        if savedPosts.length === 0
+            p 저장된 게시물이 없습니다.

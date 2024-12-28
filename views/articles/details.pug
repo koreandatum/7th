@@ -1,0 +1,11 @@
+doctype html
+html
+    head
+        title 사용자 프로필
+    body
+        h1= user.username
+        if user.profile_picture
+            img(src=user.profile_picture, alt='프로필 사진')
+        p!= user.bio.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank">$1</a>')
+        if isOwnProfile
+            button(type='button', onclick='editProfile()') 프로필 편집

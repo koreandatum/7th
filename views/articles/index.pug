@@ -1,0 +1,45 @@
+//- Parameters
+//- user, page, articles, hasPrev, hasNext
+
+extends ../layout.pug
+
+block title
+    | KWEB Board - Page #{page}
+
+block page_title
+    | KWEB Board - Page #{page}
+
+block buttons
+    a.btn.btn-info.mr-2(href='/article/compose') Compose New Article
+
+block content
+    .card.col-lg-12.mt-2
+        .list-group.list-group-flush
+            each article in articles
+                .list-group-item
+                    a.card-title.card-link(href=`/article/${article.id}`)
+                        | #{article.title}
+                    .card-text
+                        | ##{article.id}
+                        | /
+                        | Written by #{article.displayName}
+                    .card-text
+                        | Last Updated at #{article.lastUpdated}
+            else
+                .list-group-item
+                    .card-text No articles
+
+    ul.pagination.mt-4.justify-content-center
+        if hasPrev
+            li.page-item
+                a.page-link(href=`/articles/page/${page - 1}`) &lt;&lt; Previous Page
+        else
+            li.page-item.disabled
+                a.page-link &lt;&lt; Previous Page
+
+        if hasNext
+            li.page-item
+                a.page-link(href=`/articles/page/${page + 1}`) Next Page &gt;&gt;
+        else
+            li.page-item.disabled
+                a.page-link Next Page &gt;&gt;

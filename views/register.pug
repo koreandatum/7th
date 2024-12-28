@@ -1,0 +1,98 @@
+doctype html
+html
+    head
+        title 회원가입
+        link(rel='stylesheet', href='/public/styles/style.css')
+        style.
+            .alert {
+                position: fixed;
+                top: 20%; /* 화면 중앙에 위치 */
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background-color: #f44336; /* 알림 색상 */
+                color: white;
+                padding: 20px;
+                border-radius: 5px;
+                z-index: 1000;
+                display: none; /* 기본적으로 숨김 */
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            }
+            .alert button {
+                background-color: #fff; /* 버튼 색상 */
+                color: #f44336; /* 버튼 글자 색상 */
+                border: none;
+                padding: 10px 15px;
+                border-radius: 5px;
+                cursor: pointer;
+                margin-top: 10px;
+            }
+            .input-container {
+                width: 100%; /* 전체 너비 사용 */
+                max-width: 400px; /* 최대 너비 설정 */
+                margin: 10px auto; /* 가로 가운데 정렬 */
+                padding: 0; /* 패딩 제거 */
+            }
+            input[type="text"],
+            input[type="password"],
+            input[type="file"],
+            textarea {
+                width: calc(100% - 40px); /* 전체 너비에서 좌우 여백을 뺀 너비 설정 */
+                padding: 10px; /* 패딩 */
+                border: 1px solid #ced4da; /* 경계선 스타일 */
+                border-radius: 5px; /* 경계선 둥글게 */
+                box-sizing: border-box; /* 패딩과 보더를 포함한 너비 계산 */
+                margin: 0 20px; /* 좌우 여백 추가 */
+            }
+            .login-button {
+                display: block;
+                margin-top: 20px;
+                background-color: #007bff; /* 버튼 색상 */
+                color: white;
+                border: none;
+                padding: 10px 15px;
+                border-radius: 5px;
+                cursor: pointer;
+                text-align: center;
+                text-decoration: none; /* 링크 스타일 제거 */
+                width: 100%; /* 전체 너비 사용 */
+                max-width: 200px; /* 최대 너비 설정 */
+                margin: 10px auto; /* 가로 가운데 정렬 */
+            }
+    body
+        h1 회원가입
+        form(id='register-form', action='/register', method='post', enctype='multipart/form-data')
+            .input-container
+                input(type='text', name='username', placeholder='사용자 이름', required)
+            .input-container
+                input(type='text', name='userid', placeholder='아이디', required)
+            .input-container
+                input(type='password', name='password', placeholder='비밀번호', required)
+            .input-container
+                input(type='file', name='profile_picture', required)
+            .input-container
+                textarea(name='bio', placeholder='자기소개', required)
+            button(type='submit') 회원가입
+
+        // ID 중복 경고 알림
+        if errorMessage
+            div.alert(id='alert')
+                p #{errorMessage}
+                button(onclick="closeAlert()") 확인
+
+        // 로그인 버튼 추가
+        a(href='/', class='login-button') 로그인
+
+        script(src='/public/scripts/script.js')
+        script.
+            // 페이지 로드 시 알림창 표시
+            window.onload = function() {
+                var alertDiv = document.getElementById('alert');
+                if (alertDiv) {
+                    alertDiv.style.display = 'block'; // 알림창 표시
+                }
+            }
+
+            function closeAlert() {
+                var alertDiv = document.getElementById('alert');
+                alertDiv.style.display = 'none'; // 알림창 숨김
+            }
